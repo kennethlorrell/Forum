@@ -16,11 +16,10 @@
     <div id="app">
         <nav class="bg-blue-900 shadow mb-8 py-6">
             <div class="container mx-auto px-6 md:px-0">
-                <div class="flex items-center justify-center">
-                    <div class="mr-6">
-                        <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
-                            {{ config('app.name', 'Forum') }}
-                        </a>
+                <div class="flex items-center justify-center text-gray-100 no-underline text-lg">
+                    <div class="font-semibold">
+                        <a href="{{ url('/') }}" class="mr-6">{{ config('app.name', 'Forum') }}</a>
+                        <a href="{{ route('threads') }}">Threads</a>
                     </div>
                     <div class="flex-1 text-right">
                         @guest
@@ -49,8 +48,8 @@
                 </div>
             </div>
         </nav>
-        <main>
-            <div class="container mx-auto px-6">
+        <main class="container mx-auto px-6">
+            <div>
                 @yield('content')
             </div>
         </main>
