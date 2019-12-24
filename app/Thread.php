@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $fillable = [
+        'title', 'description'
+    ];
+
     public function path()
     {
     	return '/threads/' . $this->id;
@@ -18,6 +22,6 @@ class Thread extends Model
 
     public function creator()
     {
-    	return $this->belongsTo('App\User', 'user_id');
+    	return $this->belongsTo('App\User', 'owner_id');
     }
 }

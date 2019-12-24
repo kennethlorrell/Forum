@@ -36,4 +36,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all threads owned by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function threads()
+    {
+        return $this->hasMany('App\Thread', 'owner_id')->latest('created_at');
+    }
+
+    /**
+     * Get all threads owned by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies()
+    {
+        return $this->hasMany('App\Reply', 'owner_id')->latest('created_at');
+    }
 }

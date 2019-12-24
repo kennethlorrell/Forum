@@ -39,4 +39,19 @@ class ManageThreadsTest extends TestCase
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
         $this->get($this->thread->path())->assertSee($reply->body);
     }
+
+    /** @test */
+    public function only_auth_user_can_create_a_thread()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = $this->signIn();
+
+        $attributes = factory('App\Thread')->raw();
+
+        $this->followingRedirects()
+            ->post('/threads', $attributes)
+            ->assertSee($attributes['title'])
+            ->assertSee($attributes['description']);
+    }
 }

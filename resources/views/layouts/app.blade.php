@@ -19,7 +19,8 @@
                 <div class="flex items-center justify-center text-gray-100 no-underline text-lg">
                     <div class="font-semibold">
                         <a href="{{ url('/') }}" class="mr-6">{{ config('app.name', 'Forum') }}</a>
-                        <a href="{{ route('threads') }}">Threads</a>
+                        <a href="{{ route('threads') }}" class="mr-6">Threads</a>
+                        <a href="/threads/create" class="mr-6">New Thread</a>
                     </div>
                     <div class="flex-1 text-right">
                         @guest
