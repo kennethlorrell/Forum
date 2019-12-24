@@ -10,11 +10,6 @@ class Thread extends Model
         'title', 'description'
     ];
 
-    public function path()
-    {
-    	return '/threads/' . $this->id;
-    }
-
     public function replies() 
     {
     	return $this->hasMany('App\Reply');
@@ -23,5 +18,10 @@ class Thread extends Model
     public function creator()
     {
     	return $this->belongsTo('App\User', 'owner_id');
+    }
+
+    public function path()
+    {
+        return "/threads/{$this->id}";
     }
 }

@@ -44,10 +44,14 @@ class ManageThreadsTest extends TestCase
     public function only_auth_user_can_create_a_thread()
     {
         $this->withoutExceptionHandling();
-
-        $user = $this->signIn();
+        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
 
         $attributes = factory('App\Thread')->raw();
+
+        $this->post('/threads', $attributes)
+            ->assertStatus(403);
+
+        $this->signIn();
 
         $this->followingRedirects()
             ->post('/threads', $attributes)

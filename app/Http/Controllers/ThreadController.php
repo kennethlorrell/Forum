@@ -22,13 +22,17 @@ class ThreadController extends Controller
 
     public function store()
     {
-        auth()->user()->threads()->create($this->validateRequest());
+        $this->authorize('create', $this);
 
-    	return redirect()->route('threads');
+        $user->threads->create($this->validateRequest());
+
+    	return redirect('/threads');
     }
 
     public function create()
     {
+        $this->authorize('create', $this);
+
         return view('threads.create');
     }
 

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Thread;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class ThreadPolicy
 {
@@ -30,7 +31,7 @@ class ThreadPolicy
      */
     public function view(User $user, Thread $thread)
     {
-
+        //
     }
 
     /**
