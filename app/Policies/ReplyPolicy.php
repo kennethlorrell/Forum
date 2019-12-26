@@ -2,16 +2,16 @@
 
 namespace App\Policies;
 
-use App\Thread;
+use App\Reply;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ThreadPolicy
+class ReplyPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any threads.
+     * Determine whether the user can view any replies.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -22,19 +22,19 @@ class ThreadPolicy
     }
 
     /**
-     * Determine whether the user can view the thread.
+     * Determine whether the user can view the reply.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return mixed
      */
-    public function view(User $user, Thread $thread)
+    public function view(User $user, Reply $reply)
     {
         //
     }
 
     /**
-     * Determine whether the user can create threads.
+     * Determine whether the user can create replies.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -45,49 +45,49 @@ class ThreadPolicy
     }
 
     /**
-     * Determine whether the user can update the thread.
+     * Determine whether the user can update the reply.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return mixed
      */
-    public function update(User $user, Thread $thread)
+    public function update(User $user, Reply $reply)
     {
         //
     }
 
     /**
-     * Determine whether the user can delete the thread.
+     * Determine whether the user can delete the reply.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return mixed
      */
-    public function delete(User $user, Thread $thread)
+    public function delete(User $user, Reply $reply)
     {
         //
     }
 
     /**
-     * Determine whether the user can restore the thread.
+     * Determine whether the user can restore the reply.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return mixed
      */
-    public function restore(User $user, Thread $thread)
+    public function restore(User $user, Reply $reply)
     {
         //
     }
 
     /**
-     * Determine whether the user can permanently delete the thread.
+     * Determine whether the user can permanently delete the reply.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return mixed
      */
-    public function forceDelete(User $user, Thread $thread)
+    public function forceDelete(User $user, Reply $reply)
     {
         //
     }

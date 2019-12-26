@@ -20,18 +20,18 @@ class ThreadController extends Controller
     	return view('threads.view', compact('thread'));
     }
 
-    public function store()
+    public function store(Thread $thread)
     {
-        $this->authorize('create', $this);
+        $this->authorize('create', Thread::class);
 
-        $user->threads->create($this->validateRequest());
+        $thread->create($this->validateRequest());
 
     	return redirect('/threads');
     }
 
-    public function create()
+    public function create(User $user)
     {
-        $this->authorize('create', $this);
+        $this->authorize('create', Thread::class);
 
         return view('threads.create');
     }

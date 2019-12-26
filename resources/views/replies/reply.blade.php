@@ -1,3 +1,4 @@
+
 <div class="border border-red-600 bg-red-200 my-3">
 	<div class="p-2 flex justify-between">
 		<span class="text-xl font-bold text-blue-500">{{ $reply->owner->name }}</span>

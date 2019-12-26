@@ -44,7 +44,7 @@ class User extends Authenticatable
      */
     public function threads()
     {
-        return $this->hasMany('App\Thread', 'owner_id')->latest('created_at');
+        return $this->hasMany('App\Thread', 'owner_id');
     }
 
     /**
@@ -54,6 +54,6 @@ class User extends Authenticatable
      */
     public function replies()
     {
-        return $this->hasMany('App\Reply', 'owner_id')->latest('created_at');
+        return $this->hasMany('App\Reply', 'owner_id');
     }
 }

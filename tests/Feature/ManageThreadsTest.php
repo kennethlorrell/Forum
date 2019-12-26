@@ -41,20 +41,20 @@ class ManageThreadsTest extends TestCase
     }
 
     /** @test */
-    public function only_auth_user_can_create_a_thread()
+    public function unauthorized_user_can_not_create_a_thread()
     {
-        $this->withoutExceptionHandling();
-        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
-
-        $attributes = factory('App\Thread')->raw();
-
-        $this->post('/threads', $attributes)
+        $this->post('/threads')
             ->assertStatus(403);
+    }
+
+    /** @test */
+    public function authorized_user_can_create_a_thread()
+    {
+        $attributes = factory('App\Thread')->raw();
 
         $this->signIn();
 
-        $this->followingRedirects()
-            ->post('/threads', $attributes)
+        $this->post('/threads', $attributes)
             ->assertSee($attributes['title'])
             ->assertSee($attributes['description']);
     }
