@@ -20,8 +20,13 @@ class Thread extends Model
     	return $this->belongsTo('App\User', 'owner_id');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
     public function path()
     {
-        return "/threads/{$this->id}";
+        return "/threads/{$this->category->slug}/{$this->id}";
     }
 }

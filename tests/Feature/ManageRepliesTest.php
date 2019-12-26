@@ -16,7 +16,7 @@ class ManageRepliesTest extends TestCase
         $thread = factory('App\Thread')->create();
 
         $this->post($thread->path() . '/replies')
-            ->assertStatus(403);
+            ->assertRedirect('home');
     }
 
     /** @test */

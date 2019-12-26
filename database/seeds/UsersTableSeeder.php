@@ -11,8 +11,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\User',5)->create()->each(function ($user) {
-            factory('App\Thread', 1)->create(['owner_id' => $user->id])->each(function ($thread) {
+        factory('App\User')->create()->each(function ($user) {
+            factory('App\Thread')->create(['owner_id' => $user->id])->each(function ($thread) {
                 factory('App\Reply', 5)->create(['thread_id' => $thread->id]);
             });
         });

@@ -8,7 +8,7 @@ use App\Thread;
 
 class ReplyController extends Controller
 {
-    public function store(Reply $reply, Thread $thread)
+    public function store($categoryId, Reply $reply, Thread $thread)
     {
     	$this->authorize('create', Reply::class);
 

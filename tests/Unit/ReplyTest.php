@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReplyTest extends TestCase
 {
+    use RefreshDatabase;
+    
 	public function setUp(): void
 	{
 		parent::setUp();

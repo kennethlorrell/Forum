@@ -19,9 +19,6 @@ class CreateRepliesTable extends Migration
             $table->unsignedBigInteger('thread_id');
             $table->text('body');
             $table->timestamps();
-
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
         });
     }
 

@@ -44,7 +44,7 @@ class ManageThreadsTest extends TestCase
     public function unauthorized_user_can_not_create_a_thread()
     {
         $this->post('/threads')
-            ->assertStatus(403);
+            ->assertRedirect('home');
     }
 
     /** @test */
