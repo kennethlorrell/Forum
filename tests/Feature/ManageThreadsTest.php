@@ -50,12 +50,13 @@ class ManageThreadsTest extends TestCase
     /** @test */
     public function authorized_user_can_create_a_thread()
     {
-        $attributes = factory('App\Thread')->raw();
-
         $this->signIn();
 
-        $this->post('/threads', $attributes)
-            ->assertSee($attributes['title'])
-            ->assertSee($attributes['description']);
+        $thread = factory('App\Thread')->raw();
+
+        $this->followingRedirects()
+            ->post('/threads', $thread)
+            ->assertSee($thread['title'])
+            ->assertSee($thread['description']);
     }
 }

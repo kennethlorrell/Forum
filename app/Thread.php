@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     protected $fillable = [
-        'title', 'description'
+        'title', 'description', 'owner_id', 'category_id'
     ];
 
     public function replies() 

@@ -21,6 +21,7 @@
                         <a href="{{ url('/') }}" class="mr-6">{{ config('app.name', 'Forum') }}</a>
                         <a href="{{ route('threads') }}" class="mr-6">Threads</a>
                         <a href="/threads/create" class="mr-6">New Thread</a>
+                        @include('categories.list')
                     </div>
                     <div class="flex-1 text-right">
                         @guest

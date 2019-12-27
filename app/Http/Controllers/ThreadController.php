@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use App\User;
+use App\Category;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
-    public function index()
+    public function index(Category $category)
     {
-    	$threads = Thread::all();
+        if ($category->exists) {
+            $threads = $category->threads()->latest()->get();
+        } else {
+            $threads = Thread::all();
+        }
 
         return view('threads.index', compact('threads'));
     }
@@ -19,25 +24,27 @@ class ThreadController extends Controller
     {
     	return view('threads.view', compact('thread'));
     }
+
     public function store(Thread $thread)
     {
         $this->authorize('create', Thread::class);
+        $data = request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id'
+        ]);
 
-        $thread->create($this->validateRequest());
+        $data['owner_id'] = auth()->id();
+
+        $thread->create($data);
 
     	return redirect('/threads');
     }
+
     public function create(User $user)
     {
         $this->authorize('create', Thread::class);
         
         return view('threads.create');
-    }
-    protected function validateRequest()
-    {
-    	return request()->validate([
-    		'title' => 'required',
-    		'description' => 'required',
-    	]);
     }
 }

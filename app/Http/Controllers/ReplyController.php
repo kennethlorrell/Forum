@@ -12,19 +12,14 @@ class ReplyController extends Controller
     {
     	$this->authorize('create', Reply::class);
 
-    	$attributes = $this->validateRequest();
-    	$attributes['thread_id'] = $thread->id;
-    	$attributes['owner_id'] = auth()->id();
+        $this->validate(request(), ['body' => 'required']);
 
-    	$reply->create($attributes);
+    	$reply->create([
+            'body' => request('body'),
+            'thread_id' => $thread->id,
+            'owner_id' => auth()->id(),
+        ]);
 
     	return redirect($thread->path());
-    }
-
-    protected function validateRequest()
-    {
-    	return request()->validate([
-    		'body' => 'required',
-    	]);
     }
 }
