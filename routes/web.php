@@ -26,4 +26,5 @@ Route::get('/threads/{category}', 'ThreadController@index');
 Route::get('/threads/{category}/{thread}', 'ThreadController@view');
 
 Route::post('/threads/{category}/{thread}/replies', 'ReplyController@store');
+Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
 

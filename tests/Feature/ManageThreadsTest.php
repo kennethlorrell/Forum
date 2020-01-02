@@ -41,14 +41,14 @@ class ManageThreadsTest extends TestCase
     }
 
     /** @test */
-    public function unauthorized_user_can_not_create_a_thread()
+    public function a_guest_can_not_create_a_thread()
     {
         $this->post('/threads')
             ->assertRedirect('home');
     }
 
     /** @test */
-    public function authorized_user_can_create_a_thread()
+    public function an_authenticated_user_can_create_a_thread()
     {
         $this->signIn();
 

@@ -11,7 +11,7 @@ class ManageCategoriesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_may_see_threads_according_to_their_category()
+    public function a_user_may_see_threads_according_to_their_category()
     {
         $this->withoutExceptionHandling();
 

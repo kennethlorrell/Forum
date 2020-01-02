@@ -11,7 +11,7 @@ class ManageRepliesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function unauthorized_user_can_not_leave_replies()
+    public function a_guest_can_not_leave_replies()
     {
         $thread = factory('App\Thread')->create();
 
@@ -20,7 +20,7 @@ class ManageRepliesTest extends TestCase
     }
 
     /** @test */
-    public function authorized_user_can_leave_replies()
+    public function an_authenticated_user_can_leave_replies()
     {
         $this->withoutExceptionHandling();
 
