@@ -10,6 +10,10 @@ class Thread extends Model
         'title', 'description', 'owner_id', 'category_id'
     ];
 
+    protected $with = [
+        'creator', 'category',
+    ];
+
     protected static function boot()
     {
         parent::boot();

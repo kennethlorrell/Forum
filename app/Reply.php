@@ -6,8 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+    use Favorable;
+
     protected $fillable = [
         'body', 'owner_id', 'thread_id',
+    ];
+
+    protected $with = [
+        'owner', 'favorites',
     ];
 
     public function owner()
@@ -23,19 +29,5 @@ class Reply extends Model
     public function path()
     {
     	return "/threads/{$this->thread->id}/replies/{$this->id}";
-    }
-
-    public function favorites()
-    {
-        return $this->morphMany('App\Favorite', 'favorable');
-    }
-
-    public function favorite()
-    {
-        $attributes = ['user_id' => auth()->id()];
-
-        if (!$this->favorites()->where($attributes)->exists()) {
-            $this->favorites()->create($attributes);
-        }
     }
 }

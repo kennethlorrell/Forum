@@ -15,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         \View::composer('*', function($view) {
-            $view->with('categories', Category::all());
+            $categories = \Cache::rememberForever('categories', function() {
+                return Category::all();
+            });
+            $view->with('categories', $categories);
         });
     }
 
