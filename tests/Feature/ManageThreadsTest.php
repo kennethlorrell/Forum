@@ -20,8 +20,6 @@ class ManageThreadsTest extends TestCase
     /** @test */
     public function a_guest_can_view_all_threads()
     {
-        $this->withExceptionHandling();
-
         $this->get('/threads')->assertStatus(200);
 
         $this->get($this->thread->path())->assertSee($this->thread->title);
@@ -44,7 +42,7 @@ class ManageThreadsTest extends TestCase
     public function a_guest_can_not_create_a_thread()
     {
         $this->post('/threads')
-            ->assertRedirect('home');
+            ->assertRedirect('login');
     }
 
     /** @test */
@@ -61,18 +59,47 @@ class ManageThreadsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_filter_threads_by_username()
+    public function an_unauthorized_user_can_not_delete_a_thread()
     {
-        $this->withoutExceptionHandling();
+        $thread = factory('App\Thread')->create();
+
+        $this->delete($thread->path())
+            ->assertRedirect('login');
 
         $this->signIn();
-        
-        $ourUser = factory('App\Thread')->create(['owner_id' => auth()->id()]);
-        $anotherUser = factory('App\Thread')->create();
 
-        $this->get("/threads?by={$ourUser->creator->name}")
-            ->assertSee($ourUser->title)
-            ->assertDontSee($anotherUser->title);
+        $this->delete($thread->path())
+            ->assertStatus(403);
+
+        $this->assertDatabaseHas('threads', ['id' => $thread->id]);
+    }
+
+    /** @test */
+    public function a_thread_can_be_deleted_by_authorized_user()
+    {
+        $this->signIn();
+
+        $thread = factory('App\Thread')->create(['owner_id' => auth()->id()]);
+        $attributes = ['id' => $thread->id];
+
+        $this->assertDatabaseHas('threads', $attributes);
+        
+        $this->delete($thread->path());
+        
+        $this->assertDatabaseMissing('threads', $attributes);
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_by_username()
+    {
+        $this->signIn();
+        
+        $ourThread = factory('App\Thread')->create(['owner_id' => auth()->id()]);
+        $foreignThread = factory('App\Thread')->create();
+
+        $this->get("/threads?by={$ourThread->creator->name}")
+            ->assertSee($ourThread->title)
+            ->assertDontSee($foreignThread->title);
     }
 
     /** @test */

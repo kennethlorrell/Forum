@@ -16,14 +16,12 @@ class ManageRepliesTest extends TestCase
         $thread = factory('App\Thread')->create();
 
         $this->post($thread->path() . '/replies')
-            ->assertRedirect('home');
+            ->assertRedirect('login');
     }
 
     /** @test */
     public function an_authenticated_user_can_leave_replies()
     {
-        $this->withoutExceptionHandling();
-
         $this->signIn();
 
         $thread = factory('App\Thread')->create();

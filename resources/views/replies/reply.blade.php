@@ -1,6 +1,6 @@
 <div class="border border-blue-400 bg-blue-100 my-3">
 	<div class="p-2 flex justify-between">
-		<h3>{{ $reply->owner->name }} replied {{ $reply->created_at->diffForHumans() }}</h3>
+		<h3><a href="{{ route('profile', $reply->owner->name) }}">{{ $reply->owner->name }}</a> replied {{ $reply->created_at->diffForHumans() }}</h3>
 		<form action="/replies/{{ $reply->id }}/favorites" method="POST">
 			@csrf
 			<button type="submit" class="py-2 px-4 rounded bg-blue-100 text-blue-600 

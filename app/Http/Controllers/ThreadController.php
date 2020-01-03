@@ -27,19 +27,18 @@ class ThreadController extends Controller
         return view('threads.index', compact('threads'));
     }
     
-    public function view($categoryId, Thread $thread)
+    public function create(User $user)
     {
-    	return view('threads.view', [
-            'thread' => $thread,
-            'replies' => $thread->replies()->paginate(5),
-        ]);
+        $this->authorize('create', Thread::class);
+        
+        return view('threads.create');
     }
 
     public function store(Thread $thread)
     {
         // REWRITE
 
-        $this->authorize('create', Thread::class);
+        $this->authorize('create', $thread);
 
         $data = request()->validate([
             'title' => 'required',
@@ -54,10 +53,20 @@ class ThreadController extends Controller
     	return redirect('/threads');
     }
 
-    public function create(User $user)
+    public function show($category, Thread $thread)
     {
-        $this->authorize('create', Thread::class);
-        
-        return view('threads.create');
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(5),
+        ]);
+    }
+
+    public function destroy($category, Thread $thread)
+    {
+        $this->authorize('update', $thread);
+
+        $thread->delete();
+
+        return redirect('threads');
     }
 }

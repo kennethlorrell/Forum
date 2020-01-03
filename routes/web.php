@@ -23,8 +23,11 @@ Route::get('/threads', 'ThreadController@index')->name('threads');
 Route::post('/threads', 'ThreadController@store');
 Route::get('/threads/create', 'ThreadController@create');
 Route::get('/threads/{category}', 'ThreadController@index');
-Route::get('/threads/{category}/{thread}', 'ThreadController@view');
+Route::get('/threads/{category}/{thread}', 'ThreadController@show');
+Route::delete('/threads/{category}/{thread}', 'ThreadController@destroy');
 
 Route::post('/threads/{category}/{thread}/replies', 'ReplyController@store');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
+
+Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
 

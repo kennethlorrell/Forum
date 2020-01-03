@@ -53,7 +53,7 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread)
     {
-        //
+        return auth()->id() === $thread->creator->id;
     }
 
     /**

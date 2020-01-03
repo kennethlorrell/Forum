@@ -5,7 +5,18 @@
 				{{ $thread->title }}
 			</h1>
 		</a>
-		<a href="{{ $thread->path() }}" class="font-bold text-blue-500">{{ $thread->replies_count }} {{ Str::plural('reply', $thread->replies_count) }}</a>
+		<div class="flex flex-column">
+			@can('update', $thread)
+				<form action="{{ $thread->path() }}" method="POST">
+					@csrf
+					@method('DELETE')
+					<button type="submit">Delete</button>
+				</form>
+			@endcan
+			<a href="{{ $thread->path() }}" class="font-bold text-blue-500 ml-4">
+				{{ $thread->replies_count }} {{ Str::plural('reply', $thread->replies_count) }}
+			</a>
+		</div>
 	</div>
 	<p class="text-gray-800 text-base">{{ $thread->description }}</p>
 </div>
