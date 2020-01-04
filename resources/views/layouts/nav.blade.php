@@ -1,34 +1,56 @@
-<nav class="bg-blue-900 shadow mb-8 py-6">
-    <div class="container mx-auto px-6 md:px-0">
-        <div class="flex items-center justify-center text-gray-100 no-underline text-lg">
-            <div class="font-semibold">
-                <a href="{{ url('/') }}" class="mr-6">{{ config('app.name', 'Forum') }}</a>
-                <a href="{{ route('threads') }}" class="mr-6">Threads</a>
-                @if (auth()->user())
-                    <a href="{{ route('threads') . '?by=' . auth()->user()->name }}" class="mr-6">My Threads</a>
-                @endif
-                    <a href="/threads/create" class="mr-6">New Thread</a>
-                @include('categories.list')
-            </div>
-            <div class="flex-1 text-right">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            {{ config('app.name', 'Laravel') }}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav mr-auto">
+                @include('layouts.nav.dropdowns.threads')
+                <li class="nav-item">
+                    <a class="nav-link" href="/threads/create">New Thread</a>
+                </li>
+                @include('layouts.nav.dropdowns.categories')
+            </ul>
+            <!-- Right Side Of Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
                 @guest
-                    <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    @if (Route::has('register'))
-                        <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    @endif
-                    @else
-                        <span class="text-gray-300 text-sm pr-4">
-                            <a href="{{ route('profile', auth()->user()->name) }}">{{ Auth::user()->name }}</a>
-                        </span>
-                        <a href="{{ route('logout') }}"
-                            class="no-underline hover:underline text-gray-300 text-sm p-3"
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                </li>
+                @endif
+                @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" 
+                    href="{{ route('profile', auth()->user()->name) }}" 
+                    role="button" data-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('profile', auth()->user()->name) }}">
+                            Profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                            {{ csrf_field() }}
+                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
                         </form>
+                    </div>
+                </li>
                 @endguest
-            </div>
+            </ul>
         </div>
     </div>
 </nav>

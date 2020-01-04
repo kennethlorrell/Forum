@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    use Activable;
+
     protected $fillable = [
         'title', 'description', 'owner_id', 'category_id'
     ];

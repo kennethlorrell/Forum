@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    use Favorable;
+    use Favorable, Activable;
 
     protected $fillable = [
         'body', 'owner_id', 'thread_id',
