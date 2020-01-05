@@ -19,7 +19,7 @@ class ReplyTest extends TestCase
     /** @test */
     public function it_has_a_path()
     {
-        $this->assertEquals("/threads/{$this->reply->thread->id}/replies/{$this->reply->id}", $this->reply->path());
+        $this->assertEquals("{$this->reply->thread->path()}#reply-{$this->reply->id}", $this->reply->path());
     }
 
     /** @test */

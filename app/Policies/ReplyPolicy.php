@@ -53,7 +53,7 @@ class ReplyPolicy
      */
     public function update(User $user, Reply $reply)
     {
-        //
+        return auth()->id() === $reply->owner->id;
     }
 
     /**

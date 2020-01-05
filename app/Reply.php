@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    use Favorable, Activable;
+    use Favorable, RecordsActivity;
 
     protected $fillable = [
         'body', 'owner_id', 'thread_id',
@@ -14,6 +14,10 @@ class Reply extends Model
 
     protected $with = [
         'owner', 'favorites',
+    ];
+
+    protected $appends = [
+        'favoritesCount', 'favoritesStatus'
     ];
 
     public function owner()
@@ -28,6 +32,6 @@ class Reply extends Model
 
     public function path()
     {
-    	return "/threads/{$this->thread->id}/replies/{$this->id}";
+    	return "{$this->thread->path()}#reply-{$this->id}";
     }
 }

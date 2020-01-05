@@ -5,37 +5,37 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Activity;
 
 class ManageThreadsTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->thread = factory('App\Thread')->create();
-    }
     
     /** @test */
     public function a_guest_can_view_all_threads()
     {
+        $thread = factory('App\Thread')->create();
+
         $this->get('/threads')->assertStatus(200);
 
-        $this->get($this->thread->path())->assertSee($this->thread->title);
+        $this->get($thread->path())->assertSee($thread->title);
     }
 
     /** @test */
     public function a_guest_can_view_the_thread()
     {
-        $this->get($this->thread->path())->assertSee($this->thread->title);
+        $thread = factory('App\Thread')->create();
+
+        $this->get($thread->path())->assertSee($thread->title);
     }
 
     /** @test */
     public function a_guest_can_view_thread_associated_replies()
     {
-        $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-        $this->get($this->thread->path())->assertSee($reply->body);
+        $thread = factory('App\Thread')->create();
+
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+        $this->get($thread->path())->assertSee($reply->body);
     }
 
     /** @test */
@@ -75,18 +75,36 @@ class ManageThreadsTest extends TestCase
     }
 
     /** @test */
-    public function a_thread_can_be_deleted_by_authorized_user()
+    public function a_thread_can_be_entirely_deleted_by_authorized_user()
     {
         $this->signIn();
 
         $thread = factory('App\Thread')->create(['owner_id' => auth()->id()]);
-        $attributes = ['id' => $thread->id];
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
 
-        $this->assertDatabaseHas('threads', $attributes);
+        $this->assertDatabaseHas('threads', ['id' => $thread->id]);
+        $this->assertDatabaseHas('replies', ['id' => $reply->id]);
+        $this->assertDatabaseHas('activities', [
+            'activable_id' => $thread->id,
+            'activable_type' => get_class($thread),
+        ]);
+        $this->assertDatabaseHas('activities', [
+            'activable_id' => $reply->id,
+            'activable_type' => get_class($reply),
+        ]);
         
         $this->delete($thread->path());
         
-        $this->assertDatabaseMissing('threads', $attributes);
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertDatabaseMissing('activities', [
+            'activable_id' => $thread->id,
+            'activable_type' => get_class($thread),
+        ]);
+        $this->assertDatabaseMissing('activities', [
+            'activable_id' => $reply->id,
+            'activable_type' => get_class($reply),
+        ]);
     }
 
     /** @test */
@@ -111,7 +129,7 @@ class ManageThreadsTest extends TestCase
         $threadWithOneReply = factory('App\Thread')->create();
         factory('App\Reply', 1)->create(['thread_id' => $threadWithOneReply->id]);
 
-        $threadWithoutReplies = $this->thread;
+        $threadWithoutReplies = factory('App\Thread')->create();
 
         $response = $this->getJson('/threads?popular=1')->json();
 

@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class ProfilesTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function a_user_can_have_a_profile()
     {
@@ -20,11 +22,11 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_user_profile_can_contain_threads_created_by_this_user()
     {
-        $user = factory('App\User')->create();
+        $this->signIn();
 
-        $thread = factory('App\Thread')->create(['owner_id' => $user->id]);
+        $thread = factory('App\Thread')->create(['owner_id' => auth()->id()]);
 
-        $this->get("profiles/{$user->name}")
+        $this->get('profiles/' . auth()->user()->name)
             ->assertSee($thread->title)
             ->assertSee($thread->description);
     }

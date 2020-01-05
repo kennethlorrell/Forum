@@ -20,6 +20,27 @@ class ReplyController extends Controller
             'owner_id' => auth()->id(),
         ]);
 
-    	return redirect($thread->path());
+    	return redirect($thread->path())
+            ->with('flash', 'You have been successfully replied to the thread');
+    }
+
+    public function update(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->update(['body' => request('body')]);
+    }
+
+    public function destroy(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->delete();
+
+        if (request()->expectsJson()) {
+            return response(['status' => 'Reply deleted']);
+        }
+
+        return redirect()->back();
     }
 }

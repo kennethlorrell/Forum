@@ -50,14 +50,15 @@ class ThreadController extends Controller
 
         $thread->create($data);
 
-    	return redirect('/threads');
+    	return redirect('/threads')
+            ->with('flash', 'Your thread has been successfully created!');
     }
 
     public function show($category, Thread $thread)
     {
         return view('threads.show', [
             'thread' => $thread,
-            'replies' => $thread->replies()->paginate(5),
+            'replies' => $thread->replies()->latest()->paginate(10),
         ]);
     }
 

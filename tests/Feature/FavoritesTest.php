@@ -30,6 +30,20 @@ class FavoritesTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_take_a_favorite_mark_to_a_reply_away()
+    {
+        $this->signIn();
+
+        $reply = factory('App\Reply')->create();
+
+        $reply->favorite();
+
+        $this->delete("/replies/{$reply->id}/favorites");
+
+        $this->assertCount(0, $reply->fresh()->favorites);
+    }
+
+    /** @test */
     public function a_user_can_make_a_reply_favorite_only_once()
     {
         $this->signIn();

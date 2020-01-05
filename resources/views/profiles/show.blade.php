@@ -10,7 +10,7 @@
 		@forelse ($activities as $date => $activity)
 			<h4 class="text-center mt-4">{{ $date }}</h4>
 			@foreach($activity as $action)
-				@if ($action->activable)
+				@if (view()->exists("profiles.activities.{$action->type}"))
 					@include("profiles.activities.{$action->type}", ['activity' => $action])
 				@endif
 			@endforeach

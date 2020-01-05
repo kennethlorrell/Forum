@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        [v-cloak] { display: none; }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -20,6 +23,7 @@
         <main class="py-4 container">
             @yield('content')
         </main>
+        <flash message="{{ session('flash') }}"></flash>
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

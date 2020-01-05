@@ -2,14 +2,14 @@
 
 namespace App;
 
-trait Activable
+trait RecordsActivity
 {
     public function activities()
     {
         return $this->morphMany('App\Activity', 'activable');
     }
 
-    protected static function bootActivable()
+    protected static function bootRecordsActivity()
     {
         if (auth()->check()) {
         	foreach (static::getActivitiesToRecord() as $event) {
@@ -18,6 +18,10 @@ trait Activable
             	});
         	}
         }
+
+        static::deleting(function ($model) {
+            $model->activities()->delete();
+        });
     }
 
     protected static function getActivitiesToRecord()
