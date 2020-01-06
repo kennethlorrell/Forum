@@ -12,6 +12,7 @@ class ThreadController extends Controller
 {
     public function index(Category $category, ThreadFilters $filters)
     {
+
         $threads = Thread::latest();
 
         if ($category->exists) {
@@ -26,7 +27,7 @@ class ThreadController extends Controller
 
         return view('threads.index', compact('threads'));
     }
-    
+
     public function create(User $user)
     {
         $this->authorize('create', Thread::class);
@@ -34,9 +35,10 @@ class ThreadController extends Controller
         return view('threads.create');
     }
 
+
     public function store(Thread $thread)
     {
-        // REWRITE
+    	//RWRT
 
         $this->authorize('create', $thread);
 
@@ -45,7 +47,6 @@ class ThreadController extends Controller
             'description' => 'required',
             'category_id' => 'required|exists:categories,id'
         ]);
-
         $data['owner_id'] = auth()->id();
 
         $thread->create($data);
@@ -56,18 +57,15 @@ class ThreadController extends Controller
 
     public function show($category, Thread $thread)
     {
-        return view('threads.show', [
-            'thread' => $thread,
-            'replies' => $thread->replies()->latest()->paginate(10),
-        ]);
+        return view('threads.show', compact('thread'));
     }
-
+    
     public function destroy($category, Thread $thread)
     {
         $this->authorize('update', $thread);
 
         $thread->delete();
-
+        
         return redirect('threads');
     }
 }

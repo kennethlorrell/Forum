@@ -28,9 +28,10 @@ class ManageRepliesTest extends TestCase
 
         $attributes = factory('App\Reply')->raw();
 
-        $this->followingRedirects()
-            ->post($thread->path() . '/replies', $attributes)
-            ->assertSee($attributes['body']);
+        $this->post($thread->path() . '/replies', $attributes);
+
+        $this->assertDatabaseHas('replies', ['body' => $attributes['body']]);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     /** @test */
@@ -58,6 +59,7 @@ class ManageRepliesTest extends TestCase
             ->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     /** @test */

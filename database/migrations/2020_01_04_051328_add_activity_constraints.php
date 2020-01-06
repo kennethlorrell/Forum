@@ -15,7 +15,7 @@ class AddActivityConstraints extends Migration
     {
         Schema::table('activities', function (Blueprint $table) 
         {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign(['user_id'])->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,9 @@ class AddActivityConstraints extends Migration
      */
     public function down()
     {
-        dropForeign(['user_id']);
+        Schema::table('activities', function (Blueprint $table) 
+        {
+            $table->dropForeign(['user_id']);
+        });
     }
 }

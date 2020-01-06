@@ -8,17 +8,26 @@ use App\Thread;
 
 class ReplyController extends Controller
 {
-    public function store($categoryId, Reply $reply, Thread $thread)
+    public function index($categoryId, Thread $thread)
+    {
+        return $thread->replies()->paginate(10);
+    }
+
+    public function store($categoryId, Thread $thread, Reply $reply)
     {
     	$this->authorize('create', Reply::class);
 
         $this->validate(request(), ['body' => 'required']);
 
-    	$reply->create([
+    	$reply = $reply->create([
             'body' => request('body'),
             'thread_id' => $thread->id,
             'owner_id' => auth()->id(),
         ]);
+
+        if (request()->expectsJson()) {
+            return $reply->load('owner');
+        }
 
     	return redirect($thread->path())
             ->with('flash', 'You have been successfully replied to the thread');

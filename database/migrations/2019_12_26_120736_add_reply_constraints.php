@@ -15,8 +15,8 @@ class AddReplyConstraints extends Migration
     {
         Schema::table('replies', function (Blueprint $table) 
         {
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
+            $table->foreign(['owner_id'])->references('id')->on('users')->onDelete('cascade');
+            $table->foreign(['thread_id'])->references('id')->on('threads')->onDelete('cascade');
         });
     }
 
@@ -27,7 +27,10 @@ class AddReplyConstraints extends Migration
      */
     public function down()
     {
-        $table->dropForeign('owner_id');
-        $table->dropForeign('thread_id');
+        Schema::table('replies', function (Blueprint $table) 
+        {
+            $table->dropForeign(['owner_id']);
+            $table->dropForeign(['thread_id']);
+        });
     }
 }

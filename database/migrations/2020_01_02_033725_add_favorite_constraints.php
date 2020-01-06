@@ -26,6 +26,10 @@ class AddFavoriteConstraints extends Migration
      */
     public function down()
     {
-        dropUnique(['user_id', 'favorable_id', 'favorable_type']);
+        Schema::table('favorites', function (Blueprint $table) 
+        {
+            $table->dropUnique(['user_id', 'favorable_id', 'favorable_type']);
+        });
     }
+
 }

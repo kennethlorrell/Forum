@@ -15,8 +15,8 @@ class AddThreadConstraints extends Migration
     {
         Schema::table('threads', function (Blueprint $table) 
         {
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign(['owner_id'])->references('id')->on('users')->onDelete('cascade');
+            $table->foreign(['category_id'])->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -27,7 +27,10 @@ class AddThreadConstraints extends Migration
      */
     public function down()
     {
-        $table->dropForeign('owner_id');
-        $table->dropForeign('category_id');
+        Schema::table('threads', function (Blueprint $table) 
+        {
+            $table->dropForeign(['owner_id']);
+            $table->dropForeign(['category_id']);
+        });
     }
 }

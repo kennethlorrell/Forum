@@ -30,15 +30,6 @@ class ManageThreadsTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_can_view_thread_associated_replies()
-    {
-        $thread = factory('App\Thread')->create();
-
-        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
-        $this->get($thread->path())->assertSee($reply->body);
-    }
-
-    /** @test */
     public function a_guest_can_not_create_a_thread()
     {
         $this->post('/threads')
@@ -134,5 +125,16 @@ class ManageThreadsTest extends TestCase
         $response = $this->getJson('/threads?popular=1')->json();
 
         $this->assertEquals([3, 1, 0], array_column($response, 'replies_count'));
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_without_replies()
+    {
+        $thread = factory('App\Thread')->create();
+        factory('App\Reply')->create(['thread_id' => $thread->id]);
+
+        $response = $this->getJson('/threads?unanswered=1')->json();
+
+        $this->assertCount(0, $response);
     }
 }
