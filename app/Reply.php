@@ -24,6 +24,14 @@ class Reply extends Model
     {
         parent::boot();
 
+        static::creating(function ($reply) {
+            foreach ($reply->thread->subscriptions as $subscription) {
+                if ($subscription->user_id != $reply->owner_id) {
+                    $subscription->notify($reply);
+                }
+            }
+        });
+
         static::created(function ($reply) {
             $reply->thread->increment('replies_count');
         });

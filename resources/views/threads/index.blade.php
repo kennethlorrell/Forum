@@ -4,6 +4,6 @@
 	@forelse ($threads as $thread)
 		@include('threads.card')
 	@empty
-		<h1>There is empty yet. Don't be so shy and add some awesome thread to discuss!</h1>
+		<h4 class="text-center">There is empty yet. Don't be so shy and add some awesome thread to discuss!</h4>
 	@endforelse
 @endsection

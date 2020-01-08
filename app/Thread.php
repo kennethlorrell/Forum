@@ -16,6 +16,15 @@ class Thread extends Model
         'creator', 'category',
     ];
 
+    protected $appends = [
+        'isSubscribedTo',
+    ];
+
+    protected function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()->where('user_id', auth()->id())->exists();
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -42,13 +51,32 @@ class Thread extends Model
         return $this->belongsTo('App\Category');
     }
 
-    public function path()
+    public function subscriptions()
     {
-        return "/threads/{$this->category->slug}/{$this->id}";
+        return $this->hasMany('App\ThreadSubscription');
     }
 
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function path()
+    {
+        return "/threads/{$this->category->slug}/{$this->id}";
+    }
+
+    public function subscribe($userId = null)
+    {
+        return $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
+
+    public function unsubscribe($userId = null)
+    {
+        return $this->subscriptions()
+                    ->where('user_id', $userId ?: auth()->id())
+                    ->delete();
     }
 }

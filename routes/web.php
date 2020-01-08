@@ -30,7 +30,12 @@ Route::post('/threads/{category}/{thread}/replies', 'ReplyController@store');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
 Route::patch('/replies/{reply}', 'ReplyController@update');
 
+Route::post('/threads/{category}/{thread}/subscriptions', 'ThreadSubscriptionController@store');
+Route::delete('/threads/{category}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy');
+
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy');
 
 Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
+Route::get('/profiles/{user}/notifications', 'UserNotificationController@index');
+Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationController@destroy');

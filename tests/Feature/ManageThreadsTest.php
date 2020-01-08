@@ -127,6 +127,17 @@ class ManageThreadsTest extends TestCase
         $this->assertEquals([3, 1, 0], array_column($response, 'replies_count'));
     }
 
+        /** @test */
+    public function a_user_can_request_all_threads_replies()
+    {
+        $thread = factory('App\Thread')->create();
+        factory('App\Reply', 2)->create(['thread_id' => $thread->id]);
+
+        $response = $this->getJson("/{$thread->path()}/replies")->json();
+        
+        $this->assertCount(2, $response['data']);
+    }
+
     /** @test */
     public function a_user_can_filter_threads_without_replies()
     {

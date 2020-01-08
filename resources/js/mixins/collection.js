@@ -6,10 +6,10 @@ export default {
 	},
 
 	methods: {
-		create(reply) {
+		create(item) {
 			this.items.push(item);
 
-			this.$emit('added');
+			this.$emit('created');
 		},
 
 		remove(index) {

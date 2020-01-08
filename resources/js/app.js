@@ -25,9 +25,11 @@ Vue.prototype.authorize = function (handler) {
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('thread-view', require('./pages/Thread.vue').default);
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
+Vue.component('user-notifications', require('./components/UserNotifications.vue').default);
+
+Vue.component('thread-view', require('./pages/Thread.vue').default);
 
 window.events = new Vue();
 

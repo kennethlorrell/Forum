@@ -28,7 +28,7 @@ class ThreadController extends Controller
         return view('threads.index', compact('threads'));
     }
 
-    public function create(User $user)
+    public function create()
     {
         $this->authorize('create', Thread::class);
         
@@ -36,10 +36,8 @@ class ThreadController extends Controller
     }
 
 
-    public function store(Thread $thread)
+    public function store(Thread $thread, User $user)
     {
-    	//RWRT
-
         $this->authorize('create', $thread);
 
         $data = request()->validate([
@@ -47,9 +45,8 @@ class ThreadController extends Controller
             'description' => 'required',
             'category_id' => 'required|exists:categories,id'
         ]);
-        $data['owner_id'] = auth()->id();
 
-        $thread->create($data);
+        $user->threads()->create($data);
 
     	return redirect('/threads')
             ->with('flash', 'Your thread has been successfully created!');
